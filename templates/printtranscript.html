@@ -1,0 +1,106 @@
+<html>
+<head>
+    <title>Eli Lilly Speech Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
+    <link rel="stylesheet" media="all" href="https://cdn.concisecss.com/v4.1/concise.css">
+    <style type="text/css">
+        
+      .breadcrumbs {
+        font-size: 13px;
+        font-size: 0.8125rem;
+        line-height: 1.84615;
+        margin: 12px 0;
+        padding: 5px 15px 5px 0;
+      }
+      .breadcrumbs li {
+        display: inline;
+        margin-right: 10px;
+      }
+      .breadcrumbs li:last-child {
+        margin-right: 0px;
+      }
+      .breadcrumbs li:after {
+        content: "/";
+        color: #ccc;
+        padding-left: 12px;
+        vertical-align: middle;
+      }
+      .breadcrumbs li:last-child {
+        color: #999;
+      }
+      .breadcrumbs li:last-child a {
+        color: #999;
+      }
+      .breadcrumbs li:last-child:after {
+        content: "";
+      }
+
+      blockquote {
+        border-left: 1px solid #ddd;
+        color: #777;
+        font-style: italic;
+        margin: 1em 2em;
+        padding-left: 1em;
+        text-align: left;
+      }
+      blockquote cite {
+        color: #555;
+        display: block;
+        font-size: 14px;
+        font-size: 0.875rem;
+        line-height: 1.71429;
+      }
+      blockquote cite:before {
+        content: "\2014 \0020";
+      }
+      blockquote cite a {
+        color: #555;
+      }
+      blockquote cite a:visited {
+        color: #555;
+      }
+      blockquote.blockquote-reverse {
+        border-left: none;
+        border-right: 1px solid #ddd;
+        padding: 0 1em 0 0;
+        text-align: right;
+      }
+
+      
+      
+    </style>
+</head>
+
+
+  <body container>
+    <ul class="breadcrumbs">
+      <li><a href="/">Home</a></li>
+      <li><a href="/transcripts">Transcripts</a></li>
+      <li><a href="javascript:history.back()">Analytics</a></li>
+      <li><a href="#">Print Transcript</a></li>
+
+    </ul>
+
+
+    <center><div id="page">
+
+        <div>
+            <img src="/static/images/ibm.png" width="250" height="120" alt="Speech To Text Analytics"/>
+        </div> 
+
+        <blockquote>
+          <p>{{ text }}</p>
+        </blockquote>
+
+    </div></center>
+
+
+
+
+
+
+  </body>
+
+  
+</html>

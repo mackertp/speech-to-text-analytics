@@ -1,0 +1,179 @@
+<html>
+<head>
+    <title>Eli Lilly Speech Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
+    <link rel="stylesheet" media="all" href="https://cdn.concisecss.com/v4.1/concise.css">
+    <style type="text/css">
+        
+
+        @import "compass/css3";
+
+        $base : #f0f0f0;
+        $flat: #e74c3c;
+        $dark: #1E1E1E;
+
+        body{
+            background-color: $dark;
+            font-family: sans-serif;
+        }
+
+        @mixin size{
+            padding: 20px 30px;
+            width: 100px;
+            vertical-align: middle;
+        }
+
+        @mixin position{
+            margin-left: -30px;
+        }
+
+        a{
+            text-decoration: none; 
+            color: inherit;
+        }
+
+        ul li{
+            list-style: none;
+        }
+
+        .dropdown{
+            @include size;
+            margin: 0 auto;
+            background-color: #bf473e;
+            color: white;
+            text-align: center;
+        }
+
+        .dropdown #top{
+            color: $base;
+            position: relative;
+        }
+
+        .dropdown li ul li:hover{
+            color: $base;
+            background-color: darken($flat, 5%);
+            @include size;
+            @include position;
+        }
+
+        .dropdown li ul li{
+            @include size;
+            @include position;
+            color: $dark;
+            border-bottom: 1px solid darken($base, 5%);
+        }
+
+        .dropdown li ul li:first-child{
+        margin-top: 0px;
+        }
+
+        .dropdown li .dropdown-box{
+            height: 0;
+            overflow: hidden;
+            display: none;
+            background-color: $base;
+            width: 100%;
+            @include position;
+            margin-bottom: 0px;
+            margin-top: 13px;
+            border-top: 20px solid $dark;
+            padding: 0;
+            @include size;
+        }
+
+        .dropdown li:hover .dropdown-box, .dropdown li:active .dropdown-box {
+            display:block;
+            background-color: $base;
+            animation: box 2s ease;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes box {
+          from {height: 0;}
+          to {height: 203px;}
+        }
+
+        .dropdown li:hover span{
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 10px solid $base;
+            margin-top: 42px;
+            position: absolute;
+            margin-left: -40px;
+            }
+
+
+      .breadcrumbs {
+        font-size: 13px;
+        font-size: 0.8125rem;
+        line-height: 1.84615;
+        margin: 12px 0;
+        padding: 5px 15px 5px 0;
+      }
+      .breadcrumbs li {
+        display: inline;
+        margin-right: 10px;
+      }
+      .breadcrumbs li:last-child {
+        margin-right: 0px;
+      }
+      .breadcrumbs li:after {
+        content: "/";
+        color: #ccc;
+        padding-left: 12px;
+        vertical-align: middle;
+      }
+      .breadcrumbs li:last-child {
+        color: #999;
+      }
+      .breadcrumbs li:last-child a {
+        color: #999;
+      }
+      .breadcrumbs li:last-child:after {
+        content: "";
+      }
+
+      
+      
+    </style>
+</head>
+
+
+  <body container>
+    <ul class="breadcrumbs">
+      <li><a href="/">Home</a></li>
+      <li><a href="#">Transcripts</a></li>
+    </ul>
+
+
+    <center><div id="page">
+
+        <div>
+            <img src="/static/images/ibm.png" width="250" height="120" alt="Speech To Text Analytics"/>
+        </div>
+
+  
+
+        <div style="width:300px;">
+        <ul class='dropdown'>
+             <li id="top"><a>Available Transcripts ▼</a>
+                <ul class="dropdown-box">
+                    {% for item in transcripts%}
+                        <li><a href="{{ url_for('analytics', transcript=item) }}">{{ item }}</a></li>
+                    {% endfor %}
+                </ul>
+             </li>
+          </ul>
+        </div>   
+            
+
+    </div></center>
+
+  </body>
+
+  
+</html>

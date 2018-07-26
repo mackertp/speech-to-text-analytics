@@ -1,0 +1,86 @@
+<html>
+<head>
+    <title>Eli Lilly Speech Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
+    <style type="text/css">
+            body{
+              font-family:Helvetica,Arial;
+              margin:0 auto;
+              width:960px;
+              
+            }
+            ul{
+              list-style:none;  
+              margin:0;
+              padding:0;
+              width:200px;  
+              margin:20px;  
+            }
+            ul li{
+              display:block;
+              height:20px;    
+              padding:5px;  
+              border-top:1px solid rgba(255,255,255,.1);  
+              transition:all .5s;
+              opacity:0;
+            }
+            ul li:hover{
+              background:#ccc;
+            }
+            ul li:last-child{
+              border-bottom-left-radius:4px;
+              border-bottom-right-radius:4px;
+            }
+            label:before{
+              height:2px;
+              width:20px;
+              background:#333;
+              display:inline-block;
+              content:"";
+              box-shadow:0px -5px 0px 0px  #333,
+                         0px -10px 0px 0px #333;
+              margin-right:10px;
+              transition:all .5s;
+              position:relative;
+              opacity:1;
+            }
+            label{
+              display:block;  
+              padding:10px;
+              color:white;  
+              cursor:pointer; 
+            }
+            input[type="checkbox"]{
+              visibility:hidden;
+              position:absolute;
+            }
+            #collapse:checked ~ li{  
+              margin-top:0;
+              opacity:1;
+            }
+            #collapse:checked + label:before{
+              position:relative;
+              right:calc(-160px);
+              opacity:0.5;
+              
+            }
+    </style>
+</head>
+
+
+  <body>
+    <ul>
+      <input type="checkbox" id="collapse"/> 
+      <label for="collapse"></label>    
+             
+      <li>Home</li>
+      <li>Pick New Transcript</li>
+      <li>Print Transcript</li>
+      <li>Total Confidence</li>
+      <li>Word Confidence</li>
+      <li>Analyze Tone</li>
+      <li>Personality Insights</li>
+    </ul>
+  </body>
+</html>

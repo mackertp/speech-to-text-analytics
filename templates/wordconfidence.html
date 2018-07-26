@@ -1,0 +1,136 @@
+<html>
+<head>
+    <title>Eli Lilly Speech Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <link rel="stylesheet" media="all" href="https://cdn.concisecss.com/v4.1/concise.css">
+    <style type="text/css">
+        
+        .well {
+          background-color: #f9f9f9;
+          border-color: #ededed;
+          border-style: solid;
+          border-width: 1px;
+          margin-bottom: 24px;
+          padding: 0px 15px;
+        }
+        .well h1, .well h2, .well h3, .well h4, .well h5, .well h6,
+        .well .h1, .well .h2, .well .h3, .well .h4, .well .h5, .well .h6,
+        .well .giga, .well .mega, .well .kilo {
+          color: inherit;
+        }
+        .well p {
+          margin: 10px 0;
+        }
+        .well pre,
+        .well .pre.well {
+          font-size: 14px;
+          font-size: 0.875rem;
+          line-height: 1.71429;
+          padding: 10px 15px;
+        }
+        .well header h1, .well header h2, .well header h3, .well header h4, .well header h5, .well header h6,
+        .well header .h1, .well header .h2, .well header .h3, .well header .h4, .well header .h5, .well header .h6,
+        .well header .giga, .well header .mega, .well header .kilo {
+          margin: 20px 0 10px;
+        }
+
+
+
+
+      .breadcrumbs {
+        font-size: 13px;
+        font-size: 0.8125rem;
+        line-height: 1.84615;
+        margin: 12px 0;
+        padding: 5px 15px 5px 0;
+      }
+      .breadcrumbs li {
+        display: inline;
+        margin-right: 10px;
+      }
+      .breadcrumbs li:last-child {
+        margin-right: 0px;
+      }
+      .breadcrumbs li:after {
+        content: "/";
+        color: #ccc;
+        padding-left: 12px;
+        vertical-align: middle;
+      }
+      .breadcrumbs li:last-child {
+        color: #999;
+      }
+      .breadcrumbs li:last-child a {
+        color: #999;
+      }
+      .breadcrumbs li:last-child:after {
+        content: "";
+      }
+
+      blockquote {
+        border-left: 1px solid #ddd;
+        color: #777;
+        font-style: italic;
+        margin: 1em 2em;
+        padding-left: 1em;
+        text-align: left;
+      }
+      blockquote cite {
+        color: #555;
+        display: block;
+        font-size: 14px;
+        font-size: 0.875rem;
+        line-height: 1.71429;
+      }
+      blockquote cite:before {
+        content: "\2014 \0020";
+      }
+      blockquote cite a {
+        color: #555;
+      }
+      blockquote cite a:visited {
+        color: #555;
+      }
+      blockquote.blockquote-reverse {
+        border-left: none;
+        border-right: 1px solid #ddd;
+        padding: 0 1em 0 0;
+        text-align: right;
+      }
+
+      
+      
+    </style>
+</head>
+
+
+  <body container>
+    <ul class="breadcrumbs">
+      <li><a href="/">Home</a></li>
+      <li><a href="/transcripts">Transcripts</a></li>
+      <li><a href="javascript:history.back()">Analytics</a></li>
+      <li><a href="#">Word Confidence</a></li>
+
+    </ul>
+
+
+    <center><div id="page">
+
+        <div>
+            <img src="/static/images/ibm.png" width="250" height="120" alt="Speech To Text Analytics"/>
+        </div> 
+        
+        {% for word in words %}
+          <p>{{ word[0]+" -- " }} {{ word[1] }}</p>
+        {% endfor %}
+
+    </div></center>
+
+
+  </body>
+
+  
+</html>

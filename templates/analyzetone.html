@@ -1,0 +1,201 @@
+<html>
+<head>
+    <title>Eli Lilly Speech Analytics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <link rel="stylesheet" media="all" href="https://cdn.concisecss.com/v4.1/concise.css">
+    <style type="text/css">
+        
+        .well {
+          background-color: #f9f9f9;
+          border-color: #ededed;
+          border-style: solid;
+          border-width: 1px;
+          margin-bottom: 24px;
+          padding: 0px 15px;
+        }
+        .well h1, .well h2, .well h3, .well h4, .well h5, .well h6,
+        .well .h1, .well .h2, .well .h3, .well .h4, .well .h5, .well .h6,
+        .well .giga, .well .mega, .well .kilo {
+          color: inherit;
+        }
+        .well p {
+          margin: 10px 0;
+        }
+        .well pre,
+        .well .pre.well {
+          font-size: 14px;
+          font-size: 0.875rem;
+          line-height: 1.71429;
+          padding: 10px 15px;
+        }
+        .well header h1, .well header h2, .well header h3, .well header h4, .well header h5, .well header h6,
+        .well header .h1, .well header .h2, .well header .h3, .well header .h4, .well header .h5, .well header .h6,
+        .well header .giga, .well header .mega, .well header .kilo {
+          margin: 20px 0 10px;
+        }
+
+
+
+
+      .breadcrumbs {
+        font-size: 13px;
+        font-size: 0.8125rem;
+        line-height: 1.84615;
+        margin: 12px 0;
+        padding: 5px 15px 5px 0;
+      }
+      .breadcrumbs li {
+        display: inline;
+        margin-right: 10px;
+      }
+      .breadcrumbs li:last-child {
+        margin-right: 0px;
+      }
+      .breadcrumbs li:after {
+        content: "/";
+        color: #ccc;
+        padding-left: 12px;
+        vertical-align: middle;
+      }
+      .breadcrumbs li:last-child {
+        color: #999;
+      }
+      .breadcrumbs li:last-child a {
+        color: #999;
+      }
+      .breadcrumbs li:last-child:after {
+        content: "";
+      }
+
+      blockquote {
+        border-left: 1px solid #ddd;
+        color: #777;
+        font-style: italic;
+        margin: 1em 2em;
+        padding-left: 1em;
+        text-align: left;
+      }
+      blockquote cite {
+        color: #555;
+        display: block;
+        font-size: 14px;
+        font-size: 0.875rem;
+        line-height: 1.71429;
+      }
+      blockquote cite:before {
+        content: "\2014 \0020";
+      }
+      blockquote cite a {
+        color: #555;
+      }
+      blockquote cite a:visited {
+        color: #555;
+      }
+      blockquote.blockquote-reverse {
+        border-left: none;
+        border-right: 1px solid #ddd;
+        padding: 0 1em 0 0;
+        text-align: right;
+      }
+
+      
+      
+    </style>
+</head>
+
+
+  <body container>
+    <ul class="breadcrumbs">
+      <li><a href="/">Home</a></li>
+      <li><a href="/transcripts">Transcripts</a></li>
+      <li><a href="javascript:history.back()">Analytics</a></li>
+      <li><a href="#">Analyze Tone</a></li>
+
+    </ul>
+
+
+    <center><div id="page">
+
+        <div>
+            <img src="/static/images/ibm.png" width="250" height="120" alt="Speech To Text Analytics"/>
+        </div> 
+        {% for tone in text %}
+
+            <div class="ct-chart ct-major-twelfth" id="chart1">
+                <p style="padding: 180px;">{{ tone+": " }} {{ text[tone] }}</p>
+            </div>
+
+            <script>
+              var chart = new Chartist.Pie('.ct-chart', {
+                  series: [ {{ text[tone] }}, {{ 100 - (text[tone]) }} ],
+                  labels: [1, 2]
+                }, 
+                {
+                  donut: true,
+                  showLabel: false,
+                  
+                });
+
+                chart.on('draw', function(data) {
+                  if(data.type === 'slice') {
+                    // Get the total path length in order to use for dash array animation
+                    var pathLength = data.element._node.getTotalLength();
+
+                    // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                    data.element.attr({
+                      'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                    });
+
+                    // Create animation definition while also assigning an ID to the animation for later sync usage
+                    var animationDefinition = {
+                      'stroke-dashoffset': {
+                        id: 'anim' + data.index,
+                        dur: 1000,
+                        from: -pathLength + 'px',
+                        to:  '0px',
+                        easing: Chartist.Svg.Easing.easeOutQuint,
+                        // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                        fill: 'freeze'
+                      }
+                    };
+
+                    // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                    if(data.index !== 0) {
+                      animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                    }
+
+                    // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                    data.element.attr({
+                      'stroke-dashoffset': -pathLength + 'px'
+                    });
+
+                    // We can't use guided mode as the animations need to rely on setting begin manually
+                    // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                    data.element.animate(animationDefinition, false);
+                  }
+                });
+
+                // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+                chart.on('created', function() {
+                  if(window.__anim21278907124) {
+                    clearTimeout(window.__anim21278907124);
+                    window.__anim21278907124 = null;
+                  }
+                  window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+                });
+            </script>
+
+
+
+        {% endfor %}
+
+    </div></center>
+
+
+  </body>
+
+  
+</html>
