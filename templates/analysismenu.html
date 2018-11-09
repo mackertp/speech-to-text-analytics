@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
     <link rel="stylesheet" media="all" href="https://cdn.concisecss.com/v4.1/concise.css">
     <style type="text/css">
+
       .breadcrumbs {
         font-size: 13px;
         font-size: 0.8125rem;
@@ -128,13 +129,16 @@
       .btn.btn-border.red:active, .btn.btn-border.red:focus {
         background-color: #b52b27;
       }
+
     </style>
+
 </head>
 
 
   <body container>
     <ul class="breadcrumbs">
-      <li><a href="#">Home</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="#">Text Analysis</a></li>
     </ul>
 
 
@@ -144,16 +148,20 @@
             <img src="/static/images/ibm.png" width="250" height="120" alt="Speech To Text Analytics"/>
         </div>
 
-  
+        <div>
+            <button><a href="{{ url_for('rank_files') }}" class="btn btn-pill">Rank Files</a></button>
+            <button><a href="{{ url_for('search_files') }}" class="btn btn-pill">Search Files</a></button>
+        </div>
 
-        <button><a href="/sendfiles" class="btn btn-pill">Send Files</a></button>
-        <button><a href="/transcripts" class="btn btn-pill">Transcripts</a></button>
-        <button><a href="/analysismenu" class="btn btn-pill">Text Analysis</a></button>
-            
 
     </div></center>
 
+
+
+
+
+
   </body>
 
-  
+
 </html>

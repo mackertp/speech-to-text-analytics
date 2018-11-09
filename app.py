@@ -15,6 +15,7 @@ import os
 import ast
 from flask import Flask, render_template
 import helper_functions as helper
+import sentiment_analyzer as analyzer
 
 # ---------------------------------------------------------------------------------------------------- #
 # main
@@ -130,8 +131,31 @@ def personality_menu(text):
 
 
 # ---------------------------------------------------------------------------------------------------- #
+# inhouse text analytics pages
+# ---------------------------------------------------------------------------------------------------- #
+
+@app.route("/analysismenu/")
+def text_analysis_menu():
+	return render_template("analysismenu.html")
+
+
+# ---------------------------------------------------------------------------------------------------- #
+
+@app.route("/rankfiles/")
+def rank_files():
+	return render_template("rankfiles.html")
+
+
+# ---------------------------------------------------------------------------------------------------- #
+
+@app.route("/searchfiles/")
+def search_files():
+	return render_template("searchfiles.html")
+
+
+# ---------------------------------------------------------------------------------------------------- #
 # call main
 # ---------------------------------------------------------------------------------------------------- #
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(debug=False)

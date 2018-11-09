@@ -1,5 +1,6 @@
 """
-Scoring text files using the vader sentiment analyzer
+Methods that utilize the vader sentiment analyzer and perform text analysis on a batch of files. For
+the sake of a proof of concept currently using negative movie reviews as the base data set
 
 @author Preston Mackert
 """
@@ -55,7 +56,7 @@ def get_most_neg(scored_files):
 # ---------------------------------------------------------------------------------------------------- #
 # main method
 # ---------------------------------------------------------------------------------------------------- #
-
+""""
 def main():
     folder_name = "test_text/neg_reviews/"
     sentiment_scores = read_and_score_text_files(folder_name)
@@ -67,3 +68,4 @@ def main():
 # ---------------------------------------------------------------------------------------------------- #
 
 main()
+"""

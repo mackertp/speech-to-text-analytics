@@ -1,5 +1,6 @@
 """
-All of the functions used to produce data for the menu system
+Methods for using the IBM Watson cloud STT engine and dealing with returning JOSN, uses the IBM tonal
+analysis and personality insights features as well.
 
 @author Preston Mackert
 """
@@ -11,6 +12,7 @@ All of the functions used to produce data for the menu system
 import json
 import os
 from os.path import join, dirname
+import config
 from watson_developer_cloud import SpeechToTextV1
 from watson_developer_cloud import ToneAnalyzerV3
 from watson_developer_cloud import PersonalityInsightsV3
@@ -23,10 +25,7 @@ from watson_developer_cloud import PersonalityInsightsV3
 def get_transcript(audio_file_name, file_type, folder):
     """ given an audio file and file type, outputs the file into a json file using IBM watson SDK
     https://github.com/watson-developer-cloud/python-sdk/blob/master/examples/speech_to_text_v1.py """
-    speech_to_text = SpeechToTextV1(
-        username="0c91239b-51e8-4aa0-8e41-15e3450128fe",
-        password="m5Zy5gcPC0Kb",
-        url="https://stream.watsonplatform.net/speech-to-text/api")
+    speech_to_text = SpeechToTextV1(username=config.stt_uname, password=config.stt_pword, url=config.stt_url)
 
     # opens the audio file and gathers the transcript result with word confidence
     with open(join(dirname(os.getcwd() + "/" + folder + "/"), audio_file_name), "rb") as audio_file:
@@ -102,11 +101,8 @@ def convert_json_to_data(json_file):
 def analyze_tone(text):
     """ given some text, send it to IBM Watson's tone analysis tool
     https://github.com/watson-developer-cloud/python-sdk/blob/master/examples/tone_analyzer_v3.py """
-    tone_analyzer = ToneAnalyzerV3(
-        username="c72a34f2-f417-44d0-8f98-f9a363aede59",
-        password="ZHxPQN0ZKlep",
-        url="https://gateway.watsonplatform.net/tone-analyzer/api",
-        version='2017-09-26')
+    tone_analyzer = ToneAnalyzerV3(username=config.tone_uname, password=config.tone_pword, url=config.tone_url,
+                                   version=config.tone_vers)
 
     json_data = json.dumps(tone_analyzer.tone(tone_input=text, content_type="text/plain"), indent=2)
     formatted_dict = json.loads(json_data)
@@ -136,12 +132,8 @@ def format_tone(data):
 def analyze_personality(text):
     """ given some text, send it to IBM Watson's personality insight tool, requires at least 100 words
     https://github.com/watson-developer-cloud/python-sdk """
-    personality_insights = PersonalityInsightsV3(
-        version="2017-10-13",
-        username="7c0d63c1-6757-41bf-9890-0016638588b4",
-        password="hmHsYX8gqTra",
-        url="https://gateway.watsonplatform.net/personality-insights/api")
-
+    personality_insights = PersonalityInsightsV3(version=config.pi_ver, username=config.pi_uname,
+                                                 password=config.pi_pword, url=config.pi_url)
     json_data = json.dumps(
         personality_insights.profile(text, content_type='text/plain', raw_scores=True, consumption_preferences=True),
         indent=2)
