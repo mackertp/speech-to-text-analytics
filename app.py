@@ -3,6 +3,8 @@ Using flask to create a clean looking interface for the speech to text applicati
 
 was helped by using the following page to learn about building a flask app
 https://code.tutsplus.com/tutorials/creating-a-web-app-from-scratch-using-python-flask-and-mysql--cms-22972
+
+@author Preston Mackert
 """
 
 # ---------------------------------------------------------------------------------------------------- #
@@ -11,8 +13,7 @@ https://code.tutsplus.com/tutorials/creating-a-web-app-from-scratch-using-python
 
 import os
 import ast
-import json
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template
 import helper_functions as helper
 
 # ---------------------------------------------------------------------------------------------------- #
@@ -20,7 +21,8 @@ import helper_functions as helper
 # ---------------------------------------------------------------------------------------------------- #
 
 # initialize the app
-app= Flask(__name__)
+app = Flask(__name__)
+
 
 # the home screen
 @app.route("/")
@@ -69,8 +71,6 @@ def analytics(transcript):
 
 	# format the word confidence levels
 	word_conf = converted_json.get("words")
-	print(word_conf)
-
 
 	# render the template!
 	return render_template("analytics.html", text=transcript, percent=percent, words=word_conf)
@@ -97,13 +97,11 @@ def total_confidence(percent):
 
 @app.route("/wordconfidence/<words>")
 def word_confidence(words):
-
 	words = ast.literal_eval(words)
 	new_words = []
 	for word in words:
-		percent = round(word[1]*100,2)
+		percent = round(word[1]*100, 2)
 		new_words.append([word[0], percent])
-	print(new_words)
 	return render_template("wordconfidence.html", words=new_words)
 
 
@@ -111,10 +109,13 @@ def word_confidence(words):
 
 @app.route("/analyzetone/<text>")
 def analyze_tone(text):
-	tones = helper.analyze_tone(text)
-	for tone in tones:
-		tones[tone] = float(round(tones[tone]*100,2))
-	return render_template("analyzetone.html", text=tones)
+	try:
+		tones = helper.analyze_tone(text)
+		for tone in tones:
+			tones[tone] = float(round(tones[tone]*100,2))
+		return render_template("analyzetone.html", text=tones)
+	except:
+		return render_template("nopersonality.html")
 
 
 # ---------------------------------------------------------------------------------------------------- #
