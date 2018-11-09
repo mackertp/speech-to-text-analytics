@@ -103,6 +103,7 @@ def word_confidence(words):
 	for word in words:
 		percent = round(word[1]*100, 2)
 		new_words.append([word[0], percent])
+
 	return render_template("wordconfidence.html", words=new_words)
 
 
@@ -113,7 +114,7 @@ def analyze_tone(text):
 	try:
 		tones = helper.analyze_tone(text)
 		for tone in tones:
-			tones[tone] = float(round(tones[tone]*100,2))
+			tones[tone] = float(round(tones[tone]*100, 2))
 		return render_template("analyzetone.html", text=tones)
 	except:
 		return render_template("nopersonality.html")
@@ -136,14 +137,18 @@ def personality_menu(text):
 
 @app.route("/analysismenu/")
 def text_analysis_menu():
-	return render_template("analysismenu.html")
+	folder_name = "test_text/neg_reviews/"
+	sentiment_scores = analyzer.read_and_score_text_files(folder_name)
+	top_20 = analyzer.get_20_most_neg_files(sentiment_scores)
+	return render_template("analysismenu.html", files=top_20)
 
 
 # ---------------------------------------------------------------------------------------------------- #
 
-@app.route("/rankfiles/")
-def rank_files():
-	return render_template("rankfiles.html")
+@app.route("/rankfiles/<files>")
+def rank_files(files):
+	files = ast.literal_eval(files)
+	return render_template("rankfiles.html", files=files)
 
 
 # ---------------------------------------------------------------------------------------------------- #

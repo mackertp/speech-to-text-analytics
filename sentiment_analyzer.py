@@ -46,21 +46,29 @@ def read_and_score_text_files(folder_name):
     return scores
 
 
-def get_most_neg(scored_files):
+def get_20_most_neg_files(scored_files):
     inorder = sorted(scored_files)
-    most_neg_score = inorder[0]
-    most_neg_review = open("test_text/neg_reviews/" + scored_files[most_neg_score][0])
-    return most_neg_review.readlines()
+    files = {}
+    count = 0
+    pos = 0
+    while count < 20:
+        score = inorder[pos]
+        for file in scored_files[score]:
+            files[file] = score
+            count += 1
+        pos += 1
+
+    return files
 
 
 # ---------------------------------------------------------------------------------------------------- #
 # main method
 # ---------------------------------------------------------------------------------------------------- #
-""""
+"""
 def main():
     folder_name = "test_text/neg_reviews/"
     sentiment_scores = read_and_score_text_files(folder_name)
-    print(get_most_neg(sentiment_scores))
+    print(get_20_most_neg_files(sentiment_scores))
 
 
 # ---------------------------------------------------------------------------------------------------- #
