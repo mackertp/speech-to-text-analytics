@@ -10,6 +10,7 @@ the sake of a proof of concept currently using negative movie reviews as the bas
 # ---------------------------------------------------------------------------------------------------- #
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from wtforms import Form, StringField, SelectField
 import os
 
 # ---------------------------------------------------------------------------------------------------- #
@@ -43,6 +44,7 @@ def read_and_score_text_files(folder_name):
                         scores[score] = [file]
         except:
             continue
+
     return scores
 
 

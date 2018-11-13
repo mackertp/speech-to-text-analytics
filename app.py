@@ -13,7 +13,9 @@ https://code.tutsplus.com/tutorials/creating-a-web-app-from-scratch-using-python
 
 import os
 import ast
-from flask import Flask, render_template
+import statistics
+from flask import Flask, render_template, request
+from forms import *
 import helper_functions as helper
 import sentiment_analyzer as analyzer
 
@@ -78,7 +80,7 @@ def analytics(transcript):
 
 
 # ---------------------------------------------------------------------------------------------------- #
-# analytics pages
+# ibm analytics pages
 # ---------------------------------------------------------------------------------------------------- #
 
 @app.route("/printtranscript/<text>")
@@ -132,7 +134,7 @@ def personality_menu(text):
 
 
 # ---------------------------------------------------------------------------------------------------- #
-# inhouse text analytics pages
+# text analytics pages
 # ---------------------------------------------------------------------------------------------------- #
 
 @app.route("/analysismenu/")
@@ -140,7 +142,8 @@ def text_analysis_menu():
 	folder_name = "test_text/neg_reviews/"
 	sentiment_scores = analyzer.read_and_score_text_files(folder_name)
 	top_20 = analyzer.get_20_most_neg_files(sentiment_scores)
-	return render_template("analysismenu.html", files=top_20)
+
+	return render_template("analysismenu.html", files=top_20, scores=sentiment_scores)
 
 
 # ---------------------------------------------------------------------------------------------------- #
@@ -153,9 +156,51 @@ def rank_files(files):
 
 # ---------------------------------------------------------------------------------------------------- #
 
-@app.route("/searchfiles/")
+@app.route("/searchfiles/", methods=['GET', 'POST'])
 def search_files():
+	if request.method == "POST":
+		search = stringSearchForm(request.form)
+		if request.method == "POST":
+			return search_results(search)
 	return render_template("searchfiles.html")
+
+
+@app.route("/searchresults.html/")
+def search_results(search):
+	search_string = search.data['search']
+	print(search_string)
+	return render_template("searchresults.html")
+
+
+# ---------------------------------------------------------------------------------------------------- #
+
+@app.route("/graphsentiment/<scores>")
+def graph_sentiment(scores):
+	scores = ast.literal_eval(scores)
+	# the labels for this graph are [0-25, 25-50, 50-75, 75-100] indicating the semantic score range of calls
+	pos_total = 0
+	neg_total = 0
+
+	mean = round(statistics.mean(scores), 2) * 100
+	median = round(statistics.median(scores), 2) * 100
+
+	total_count = 0
+	files = []
+	score_points = []
+
+	for score in scores:
+		score_files = scores[score]
+		for file in score_files:
+			total_count += 1
+			if score >= 0:
+				pos_total += 1
+			else:
+				neg_total += 1
+			files.append(file)
+			score_points.append(score)
+
+	return render_template("graphsentiment.html", mean=mean, median=median, count=total_count, postot=pos_total,
+						   negtot=neg_total, files=files, scores=score_points)
 
 
 # ---------------------------------------------------------------------------------------------------- #
