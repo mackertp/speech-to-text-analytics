@@ -142,7 +142,6 @@ def text_analysis_menu():
 	folder_name = "test_text/neg_reviews/"
 	sentiment_scores = analyzer.read_and_score_text_files(folder_name)
 	top_20 = analyzer.get_20_most_neg_files(sentiment_scores)
-
 	return render_template("analysismenu.html", files=top_20, scores=sentiment_scores)
 
 
@@ -168,8 +167,9 @@ def search_files():
 @app.route("/searchresults.html/")
 def search_results(search):
 	search_string = search.data['search']
-	print(search_string)
-	return render_template("searchresults.html")
+	data = analyzer.search_files(search_string)
+	sorted_data = analyzer.sort_search(data)
+	return render_template("searchresults.html", data=data, sorteddata=sorted_data)
 
 
 # ---------------------------------------------------------------------------------------------------- #
