@@ -169,7 +169,18 @@ def search_results(search):
 	search_string = search.data['search']
 	data = analyzer.search_files(search_string)
 	sorted_data = analyzer.sort_search(data)
-	return render_template("searchresults.html", data=data, sorteddata=sorted_data)
+	num_files = {}
+	for file in data:
+		num_app = len(data[file])
+		num_files[file] = num_app
+
+	return render_template("searchresults.html", sorteddata=sorted_data, filenums=num_files)
+
+@app.route("/viewfile.html/<text>")
+def view_file(text):
+	folder = "test_text/neg_reviews/"
+	file_text = open(folder + text).readlines()
+	return render_template("viewfile.html", text=file_text)
 
 
 # ---------------------------------------------------------------------------------------------------- #
